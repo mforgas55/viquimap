@@ -68,7 +68,7 @@ function normalizeNode(raw: RawNodeDTO): NodeDTO {
 }
 
 export async function fetchGraphInBounds(xmin: number, ymin: number, xmax: number, ymax: number, signal?: AbortSignal): Promise<ViewportGraphData> {
-  const { data } = await apiClient.get<RawViewportGraphData>('/graph/viewport', {
+  const { data } = await apiClient.get<RawViewportGraphData>('/nodes', {
     params: { xmin, ymin, xmax, ymax },
     signal,
   })
