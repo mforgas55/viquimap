@@ -15,8 +15,8 @@ export interface NodeDTO {
 }
 
 export interface EdgeDTO {
-  idsourcenode: number
-  idtargetnode: number
+  sourceId: number
+  targetId: number
 }
 
 export interface ViewportGraphData {
@@ -25,10 +25,10 @@ export interface ViewportGraphData {
 }
 
 interface RawNodeDTO {
-  id: number
+  pageId: number
   title: string
   position: string
-  size: number
+  node_radius: number
 }
 
 interface RawViewportGraphData {
@@ -59,19 +59,21 @@ function parseWktPoint(wkt: string): { x: number; y: number } {
 function normalizeNode(raw: RawNodeDTO): NodeDTO {
   const { x, y } = parseWktPoint(raw.position)
   return {
-    id: raw.id,
+    id: raw.pageId,
     title: raw.title,
     x,
     y,
-    size: raw.size,
+    size: raw.node_radius,
   }
 }
 
 export async function fetchGraphInBounds(xmin: number, ymin: number, xmax: number, ymax: number, signal?: AbortSignal): Promise<ViewportGraphData> {
+  
   const { data } = await apiClient.get<RawViewportGraphData>('/nodes', {
     params: { xmin, ymin, xmax, ymax },
     signal,
   })
+  console.log(data.nodes.map(normalizeNode))
   return {
     nodes: data.nodes.map(normalizeNode),
     edges: data.edges

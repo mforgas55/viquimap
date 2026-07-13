@@ -11,11 +11,15 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Graph from 'graphology'
 import Sigma from 'sigma'
+import { fetchGraphInBounds } from '@/services/graphAPI'
+import type { NodeDTO, EdgeDTO, ViewportGraphData } from '@/services/graphAPI'
+
+import { addEdgesToGraph, addNodesToGraph } from '@/manageGraph'
 
 const containerRef = ref<HTMLDivElement | null>(null)
 let sigmaInstance: Sigma | null = null
 
-onMounted(() => {
+onMounted(async () => {
   if (!containerRef.value) return
 
   // Create a graphology graph
@@ -23,6 +27,15 @@ onMounted(() => {
 
   // Instantiate sigma.js and render the graph
   sigmaInstance = new Sigma(graph, containerRef.value)
+
+  // First run
+  const visibleData = await fetchGraphInBounds(0,0,10,10)
+  const visibleNodes = visibleData.nodes
+  const visibleEdges = visibleData.edges
+
+  addNodesToGraph(graph, visibleNodes)
+  addEdgesToGraph(graph, visibleEdges)
+
 
  
   graph.addNode('1', { label: 'Node 1', x: 0, y: 0, size: 10, color: 'blue' })

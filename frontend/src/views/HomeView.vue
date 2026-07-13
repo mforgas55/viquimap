@@ -12,6 +12,6 @@ function callApi() {
 <template>
   <main>
     <GraphDisplay />
-    <button v-on:click="callApi()">Call API</button>
+    <!-- <button v-on:click="callApi()">Call API</button> -->
   </main>
 </template>

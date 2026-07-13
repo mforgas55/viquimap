@@ -40,8 +40,8 @@ export class NodesService {
         `
         SELECT idsourcenode AS sourceid, idtargetnode AS targetid
         FROM edges
-        WHERE idsourcenode = ANY($1)
-          OR idtargetnode = ANY($1)
+        WHERE (idsourcenode = ANY($1)
+          AND idtargetnode = ANY($1)) AND WHERE position && ${envelope}
         `,
         [nodeIds],
       )).map(row => ({
