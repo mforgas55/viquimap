@@ -4,7 +4,8 @@ import { Type } from 'class-transformer';
 export class NodeResponseDto {
   pageId: number;
   title: string;
-  geopoint: string;
+  position: string;
+  node_radius: number;
 }
 
 export class EdgeResponseDto {
@@ -13,8 +14,9 @@ export class EdgeResponseDto {
 }
 
 export interface BboxResult {
-  nodes: NodeResponseDto[];
+  nodesBBox: NodeResponseDto[];
   edges: EdgeResponseDto[];
+  outlyingNodes: NodeResponseDto[];
 }
 
 export class BboxQueryDto {

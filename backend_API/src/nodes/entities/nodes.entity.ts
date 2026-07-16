@@ -2,7 +2,7 @@ import { Entity, PrimaryColumn, Column, Index } from 'typeorm';
 
 @Entity('nodes')
 export class Node {
-  @PrimaryColumn({name: 'page_id '})
+  @PrimaryColumn({name: 'page_id'})
   id: number;
   @Column({name: 'page_title'})
   title: string;
