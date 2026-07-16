@@ -1,7 +1,7 @@
 //IDK on ficar aixo. Ho deixo aqui mashallah renewakbar
 
 import Graph from 'graphology'
-import type {NodeDTO, EdgesDTO} from '@/services/graphAPI'
+import type {NodeDTO, EdgeDTO} from '@/services/graphAPI'
 
 export function addNodesToGraph(graph: Graph, nodes: NodeDTO[]): void {
     nodes.forEach((node) =>{
@@ -17,9 +17,9 @@ export function addNodesToGraph(graph: Graph, nodes: NodeDTO[]): void {
     })
 }
 
-export function addEdgesToGraph(graph: Graph, edges: EdgesDTO[]): void {
+export function addEdgesToGraph(graph: Graph, edges: EdgeDTO[]): void {
     edges.forEach((edge) => {
-        if(!graph.hasEdge(edge.sourceId, edge.targetId)){
+        if(graph.hasNode(edge.sourceId) && graph.hasNode(edge.targetId) && !graph.hasEdge(edge.sourceId, edge.targetId)){
             graph.addEdge(edge.sourceId, edge.targetId)
         }
     })
