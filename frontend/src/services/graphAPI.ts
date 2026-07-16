@@ -20,8 +20,9 @@ export interface EdgeDTO {
 }
 
 export interface ViewportGraphData {
-  nodes: NodeDTO[]
+  nodesBBox: NodeDTO[]
   edges: EdgeDTO[]
+  outlyingNodes: NodeDTO[]
 }
 
 interface RawNodeDTO {
@@ -32,8 +33,9 @@ interface RawNodeDTO {
 }
 
 interface RawViewportGraphData {
-    nodes: RawNodeDTO[]
+    nodesBBox: RawNodeDTO[]
     edges: EdgeDTO[]
+    outlyingNodes: RawNodeDTO[]
 }
 
 function parseWktPoint(wkt: string): { x: number; y: number } {
@@ -73,9 +75,11 @@ export async function fetchGraphInBounds(xmin: number, ymin: number, xmax: numbe
     params: { xmin, ymin, xmax, ymax },
     signal,
   })
-  console.log(data.nodes.map(normalizeNode))
+  console.log(data.nodesBBox.map(normalizeNode))
+  console.log(data.outlyingNodes.map(normalizeNode))
   return {
-    nodes: data.nodes.map(normalizeNode),
-    edges: data.edges
+    nodesBBox: data.nodesBBox.map(normalizeNode),
+    edges: data.edges,
+    outlyingNodes: data.outlyingNodes.map(normalizeNode),
   }
 }
