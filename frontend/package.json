@@ -14,6 +14,7 @@
     "lint:eslint": "eslint . --fix --cache"
   },
   "dependencies": {
+    "@sigma/utils": "^3.0.0",
     "axios": "^1.18.1",
     "graphology": "^0.26.0",
     "pinia": "^3.0.4",

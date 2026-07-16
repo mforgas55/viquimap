@@ -11,6 +11,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Graph from 'graphology'
 import Sigma from 'sigma'
+import { fitViewportToNodes } from "@sigma/utils";
 import { fetchGraphInBounds } from '@/services/graphAPI'
 import type { NodeDTO, EdgeDTO, ViewportGraphData } from '@/services/graphAPI'
 
@@ -26,21 +27,44 @@ onMounted(async () => {
   const graph = new Graph()
 
   // Instantiate sigma.js and render the graph
-  sigmaInstance = new Sigma(graph, containerRef.value)
+  sigmaInstance = new Sigma(graph, containerRef.value, {
+    // This flag tells sigma to disable the nodes and edges sizes interpolation
+    // and instead scales them in the same way it handles positions:
+    itemSizesReference: "positions",
+    // This function tells sigma to grow sizes linearly with the zoom, instead
+    // of relatively to the zoom ratio's square root:
+    //zoomToSizeRatioFunction: (x) => x,
+    // This disables the default sigma rescaling, so that by default, positions
+    // and sizes are preserved on screen (in pixels):
+    autoRescale: false,
+  })
+
+  // graph.addNode("Node 0,0", {
+  //   x:0,
+  //   y:0,
+  //   size: 50,
+  //   color: "#FF0000"
+  // })
+
+  sigmaInstance.getCamera().animate(
+    { x: 0.5, y: 0.5, ratio: 0.05 }, // ratio menor = més zoom
+    { duration: 500 } // ms d'animació, opcional
+  );
 
   // First run
-  const visibleData = await fetchGraphInBounds(0,0,10,10)
-  const visibleNodes = visibleData.nodes
+  const visibleData = await fetchGraphInBounds(0,0,5,5)
+  const visibleNodes = visibleData.nodesBBox
   const visibleEdges = visibleData.edges
+  const outlyingNodes = visibleData.outlyingNodes 
 
   addNodesToGraph(graph, visibleNodes)
-  addEdgesToGraph(graph, visibleEdges)
+  addNodesToGraph(graph, outlyingNodes)
+  addEdgesToGraph(graph, visibleEdges) //Degut al query limit dels outlyingNodes, hi han edges amb nodes que no formen part del graf
 
+  const idVisibleNodes: string[] = visibleNodes.map((node) => String(node.id));
 
- 
-  graph.addNode('1', { label: 'Node 1', x: 0, y: 0, size: 10, color: 'blue' })
-  graph.addNode('2', { label: 'Node 2', x: 1, y: 1, size: 20, color: 'red' })
-  graph.addEdge('1', '2', { size: 5, color: 'purple' })
+  fitViewportToNodes(sigmaInstance, idVisibleNodes)
+
 })
 
 onBeforeUnmount(() => {
