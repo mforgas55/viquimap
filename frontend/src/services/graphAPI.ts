@@ -48,8 +48,8 @@ function parseWktPoint(wkt: string): { x: number; y: number } {
     throw new Error(`Unable to parse WKT point: "${wkt}"`)
   }
 
-  const x = parseFloat(xStr)
-  const y = parseFloat(yStr)
+  const x = parseFloat(xStr) * 100.0
+  const y = parseFloat(yStr) * 100.0
 
   if (Number.isNaN(x) || Number.isNaN(y)) {
     throw new Error(`Parsed non-numeric coordinates from WKT point: "${wkt}"`)
