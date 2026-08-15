@@ -84,11 +84,11 @@ async function loadViewportData() {
       }
     })
 
-    edges.forEach((e) => {
+    /*edges.forEach((e) => {
       if (graph && !graph.hasEdge(e.sourceId, e.targetId)) {
         graph.addEdge(e.sourceId, e.targetId, {size: 1, color: "white"})
       }
-    })
+    })*/
 
     sigmaInstance?.refresh()
   } catch (err) {
@@ -137,12 +137,12 @@ onMounted(async () => {
   
   const visibleData = await fetchGraphInBounds(0,0,5,5)
   const visibleNodes = visibleData.nodesBBox
-  const visibleEdges = visibleData.edges
+  //const visibleEdges = visibleData.edges
   const outlyingNodes = visibleData.outlyingNodes 
 
   addNodesToGraph(graph, visibleNodes)
   addNodesToGraph(graph, outlyingNodes)
-  addEdgesToGraph(graph, visibleEdges) //Degut al query limit dels outlyingNodes, hi han edges amb nodes que no formen part del graf
+  //addEdgesToGraph(graph, visibleEdges) //Degut al query limit dels outlyingNodes, hi han edges amb nodes que no formen part del graf
 
   const idVisibleNodes: string[] = visibleNodes.map((node) => String(node.id));
 
