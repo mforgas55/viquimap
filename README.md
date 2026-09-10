@@ -11,7 +11,7 @@
 ## Backend
 El backend està format per dues parts: la base de dades i l'API la comunica amb el frontend
 ### Base de Dades
-Inicialment, ha de contenir tres taules, totes obtingudes de [Wikimedia Dumps](https://dumps.wikimedia.org/cawiki/). Cal descarregar els fitxers cawiki-[...]-pages-articles.xml.bz2, cawiki-[...]-linktarget.xml.bz2 i cawiki-[...]-pagelinks.xml.bz2, muntar les BDs i passar-les a PostgreSQL. A continuació, cal executar els scripts a [sqlCodes](backend_DB/sqlCodes/) i [graphCalc](backend_DB/graphCalc) per deixar la BD en l'estat que necessita l'aplicació.
+Inicialment, ha de contenir tres taules, totes obtingudes de [Wikimedia Dumps](https://dumps.wikimedia.org/cawiki/). Cal descarregar els fitxers cawiki-latest-pages-articles.sql.gz, cawiki-latest-linktarget.sql.gz i cawiki-latest-pagelinks.sql.gz, muntar les BDs i passar-les a PostgreSQL. A continuació, cal executar els scripts a [sqlCodes](backend_DB/sqlCodes/) i [graphCalc](backend_DB/graphCalc) per deixar la BD en l'estat que necessita l'aplicació.
 
 ### API
 Degut a l'alta intensitat de fer una crida fins i tot a una àrea petita del mapa, l'API només retorna els 500 nodes més grans en l'àrea sol·licitada. Per fer-la funcionar, cal crear un document .env a [backend_API](backend_API) i omplir-hi els camps següents:
