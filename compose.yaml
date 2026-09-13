@@ -1,0 +1,51 @@
+name: server_db
+
+services:
+  postgresdb:
+    container_name: viquimap_db
+    image: imresamu/postgis:17-3.6-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data                # Named Volume
+      - ./postgres/init:/docker-entrypoint-initdb.d     # If there is no db_data, docker-entrypoint.sh will execute all files located in docker-entrypoint-initdb.d, therefore launching the .sql dump and inserting the tables into db_data. 
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    networks:
+      - app_network
+    restart: unless-stopped
+
+
+  api:
+   build: ./api
+   container_name: nest_api
+   ports:
+      - 3000:3000   # Keep in mind that the user will make queries to the api through the frontend.
+   environment:
+      DB_HOST: postgresdb
+      DB_PORT: 5432
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_NAME}   
+   depends_on:
+      - postgresdb
+   networks:
+      - app_network
+   restart: unless-stopped
+
+
+  frontend:
+    build: ./frontend
+    ports:
+       - 8080:80
+    depends_on:
+       - api
+    restart: unless-stopped
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  db_data:
+

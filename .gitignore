@@ -1,0 +1,12 @@
+
+
+node_modules/
+dist/
+build/
+.env
+postgres_data/
+*.log
+.DS_Store
+raw_dump_conversion_tools/graphCalc/data
+postgres/init/00_search_path.sql
+postgres/init/01_db_dump.sql
