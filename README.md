@@ -38,25 +38,6 @@ Per exemple, una <em>pàgina redireccionament</em> seria: [https://ca.wikipedia.
 
 Considerar els redireccionaments dins del graf suposaria la presència d'articles que no aporten cap nova informació, ofuscant el mapa. Per tant, en la creació de la base de dades es necessari descartar aquests articles, guardant únicament els "**articles reals**.
 
-## Backend
-El backend està format per dues parts: la base de dades i l'API que la comunica amb el frontend.
-
-### Base de Dades
-La creació de la base de dades final parteix de quatre taules ubicades a [Wikimedia Dumps](https://dumps.wikimedia.org/cawiki/).   
-
-Aquestes taules son:
-* cawiki-latest-pages-articles.sql.gz
-* cawiki-latest-pagelinks.sql.gz
-* cawiki-latest-redirect.sql.gz  
-* cawiki-latest-linktarget.sql.gz
-
-El flux d'elaboració de la base de dades final consisteix en
-
-### Resolució de redireccionaments
-
-
-A continuació, cal executar els scripts a [sqlCodes](backend_DB/sqlCodes/) i [graphCalc](backend_DB/graphCalc) per deixar la BD en l'estat que necessita l'aplicació.
-
 ### API
 Degut a l'alta intensitat de fer una crida fins i tot en una àrea petita del mapa, l'API només retorna els 500 nodes més grans en l'àrea sol·licitada.
 Perquè l'API està a l'escolta de qualsevol crida (local) al port 3000
