@@ -5,6 +5,7 @@
 ## Taula de continguts
 - [Instal·lació](#Instal·lació)
 - [Conceptes sobre la Viquipèdia](#Conceptes_sobre_la_Viquipèdia)
+- [API](#API)
 ## Instal·lació
 1. Descarregueu el [dump](https://github.com/mforgas55/viquimap/releases/download/DB_DUMP/01_db_dump.sql) de la base de dades i col·loqueu-lo a ```postgres/init/```:
 ```bash
@@ -38,7 +39,7 @@ Per exemple, una <em>pàgina redireccionament</em> seria: [https://ca.wikipedia.
 
 Considerar els redireccionaments dins del graf suposaria la presència d'articles que no aporten cap nova informació, ofuscant el mapa. Per tant, en la creació de la base de dades es necessari descartar aquests articles, guardant únicament els "**articles reals**.
 
-### API
+## API
 Degut a l'alta intensitat de fer una crida fins i tot en una àrea petita del mapa, l'API només retorna els 500 nodes més grans en l'àrea sol·licitada.
 Perquè l'API està a l'escolta de qualsevol crida (local) al port 3000
 
